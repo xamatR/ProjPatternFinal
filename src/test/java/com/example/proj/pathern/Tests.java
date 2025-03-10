@@ -1,8 +1,5 @@
 package com.example.proj.pathern;
 
-import com.example.proj.pathern.DineInOrder;
-import com.example.proj.pathern.NewOrderState;
-import com.example.proj.pathern.Order;
 import org.junit.Test;
 
 import static junit.framework.Assert.assertEquals;

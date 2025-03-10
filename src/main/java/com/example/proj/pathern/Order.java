@@ -2,10 +2,6 @@ package com.example.proj.pathern;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import java.util.ArrayList;
-import java.util.List;
-
 public abstract class Order {
     private int id;
     protected OrderState state;

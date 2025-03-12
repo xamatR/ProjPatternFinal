@@ -232,4 +232,54 @@ public class Tests {
         assertTrue(result.contains("Executing: Cancel order 302."));
         assertTrue(order.getStatus().contains("Cancelled"));
     }
+
+    // -------------------------------
+    // Singleton Pattern Tests
+    // -------------------------------
+    @Test
+    public void testUniqueInstance() {
+        RestaurantManager instance1 = RestaurantManager.getInstance();
+        RestaurantManager instance2 = RestaurantManager.getInstance();
+        assertTrue(instance1 == instance2);
+    }
+
+    // -------------------------------
+    // Observer Pattern Tests
+    // -------------------------------
+    @Test
+    public void testSingleObserverNotification() {
+        Order order = new DineInOrder(100);
+        Waiter waiter = new Waiter("Alice");
+        order.attach(waiter);
+
+        // Altera o estado para "Preparing". Presume-se que a classe PreparingOrderState retorne "Preparing" em getStatus()
+        String notification = order.setState(new PreparingOrderState());
+
+        String expected = "Waiter Alice notified: Order 100 is now Preparing";
+        assertEquals(expected, notification);
+    }
+
+    @Test
+    public void testMultipleObserverNotification() {
+        Order order = new DineInOrder(101);
+        Waiter waiter1 = new Waiter("Alice");
+        Waiter waiter2 = new Waiter("Bob");
+        order.attach(waiter1);
+        order.attach(waiter2);
+
+        // Altera o estado para "Ready". Presume-se que a classe ReadyOrderState retorne "Ready" em getStatus()
+        String notification = order.setState(new ReadyOrderState());
+
+        String expected = "Waiter Alice notified: Order 101 is now Ready\n" +
+                "Waiter Bob notified: Order 101 is now Ready";
+        assertEquals(expected, notification);
+    }
+
+    @Test
+    public void testNoObserverNotification() {
+        Order order = new DineInOrder(102);
+        // Não anexamos nenhum observador.
+        String notification = order.setState(new PreparingOrderState());
+        assertEquals("", notification);
+    }
 }
